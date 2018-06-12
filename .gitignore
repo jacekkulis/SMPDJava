@@ -1,0 +1,22 @@
+# Maven
+log/
+target/
+bin/
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Intellij
+.idea/
+*.iml
+*.iws
