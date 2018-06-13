@@ -1,13 +1,13 @@
 package pl.jacekkulis.validator;
 
-import pl.jacekkulis.classifier.Classifier;
-import pl.jacekkulis.classifier.MatrixIrreversibleException;
+import pl.jacekkulis.classifier.IClassifier;
+import pl.jacekkulis.exception.MatrixIrreversibleException;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.SampleWithClass;
 
 import java.util.*;
 
-public class BootstrapValidator implements ClassificationValidator {
+public class BootstrapValidator implements IValidator {
 
 	private final int numberOfIterations;
 	
@@ -19,16 +19,16 @@ public class BootstrapValidator implements ClassificationValidator {
 	}
 
 	@Override
-	public double validate(Classifier classifier, List<SampleWithClass> samples) {
+	public double validate(IClassifier IClassifier, List<SampleWithClass> samples) {
 		List<Double> results = new ArrayList<>();
 		
 		int i = 0;
 		while (i < numberOfIterations) {
 			try {
 				splitSamplesIntoTrainingAndTestSets(samples);
-				classifier.train(trainingSamples);
+				IClassifier.train(trainingSamples);
 				
-				results.add(testClassifier(classifier));
+				results.add(testClassifier(IClassifier));
 				
 				i += 1;
 			} catch (MatrixIrreversibleException e) { }
@@ -56,11 +56,11 @@ public class BootstrapValidator implements ClassificationValidator {
 		}
 	}
 	
-	private double testClassifier(Classifier classifier) {
+	private double testClassifier(IClassifier IClassifier) {
 		int numberOfValidClassifications = 0;
 		
 		for (SampleWithClass sample : testSamples) {
-			ModelClass modelClass = classifier.classify(sample);
+			ModelClass modelClass = IClassifier.classify(sample);
 			if (modelClass.equals(sample.getModelClass())) {
 				numberOfValidClassifications += 1;
 			}

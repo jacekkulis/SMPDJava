@@ -6,12 +6,12 @@ import pl.jacekkulis.model.SampleWithClass;
 
 import java.util.List;
 
-public interface Classifier {
+public interface IClassifier {
 
 	void train(List<SampleWithClass> trainSamples);
-	
+
 	ModelClass classify(Sample sample);
-	
+
 	boolean isTrained();
 	
 }

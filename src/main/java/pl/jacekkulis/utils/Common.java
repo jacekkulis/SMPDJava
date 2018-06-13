@@ -1,7 +1,8 @@
-package pl.jacekkulis.classifier;
+package pl.jacekkulis.utils;
 
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
+import pl.jacekkulis.exception.MatrixIrreversibleException;
 import pl.jacekkulis.model.Sample;
 
 import java.util.ArrayList;
@@ -50,8 +51,7 @@ public class Common {
 		matrix = matrix
 				.times(invertedCovarianceMatrix)
 				.times(matrix.transpose());
-		
-		// the result is a scalar
+
 		return matrix.getArray()[0][0];
 	}
 	
@@ -117,5 +117,4 @@ public class Common {
 							* u[j][k];
 		return new Matrix(inverse);
 	}
-	
 }

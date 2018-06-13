@@ -1,7 +1,7 @@
 package pl.jacekkulis.validator;
 
-import pl.jacekkulis.classifier.Classifier;
-import pl.jacekkulis.classifier.MatrixIrreversibleException;
+import pl.jacekkulis.classifier.IClassifier;
+import pl.jacekkulis.exception.MatrixIrreversibleException;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.SampleWithClass;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CrossvalidationValidator implements ClassificationValidator {
+public class CrossvalidationValidator implements IValidator {
 
 	private final int numberOfSets;
 	
@@ -20,14 +20,14 @@ public class CrossvalidationValidator implements ClassificationValidator {
 	}
 	
 	@Override
-	public double validate(Classifier classifier, List<SampleWithClass> samples) {
+	public double validate(IClassifier IClassifier, List<SampleWithClass> samples) {
 		while (true) {
 			try {
 				List<Double> results = new ArrayList<>();
 				splitSamplesIntoSets(samples);
 				
 				for (SamplesSet testSet : sets) {
-					results.add(validateClassifierUsingTestSet(classifier, testSet));
+					results.add(validateClassifierUsingTestSet(IClassifier, testSet));
 				}
 				
 				return averageOf(results);
@@ -50,11 +50,11 @@ public class CrossvalidationValidator implements ClassificationValidator {
 		} while (position < samples.size());
 	}
 
-	private double validateClassifierUsingTestSet(Classifier classifier, SamplesSet testSet) {
+	private double validateClassifierUsingTestSet(IClassifier IClassifier, SamplesSet testSet) {
 		List<SampleWithClass> trainSamples = trainingSamplesWithout(testSet);
-		classifier.train(trainSamples);
+		IClassifier.train(trainSamples);
 		
-		return testClassifier(classifier, testSet);
+		return testClassifier(IClassifier, testSet);
 	}
 	
 	private List<SampleWithClass> trainingSamplesWithout(SamplesSet testSet) {
@@ -69,11 +69,11 @@ public class CrossvalidationValidator implements ClassificationValidator {
 		return trainingSamples;
 	}
 	
-	private double testClassifier(Classifier classifier, SamplesSet testSet) {
+	private double testClassifier(IClassifier IClassifier, SamplesSet testSet) {
 		int numberOfValidClassifications = 0;
 		
 		for (SampleWithClass sample : testSet.samples) {
-			ModelClass modelClass = classifier.classify(sample);
+			ModelClass modelClass = IClassifier.classify(sample);
 			if (modelClass.equals(sample.getModelClass())) {
 				numberOfValidClassifications += 1;
 			}

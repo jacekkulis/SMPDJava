@@ -3,6 +3,7 @@ package pl.jacekkulis.classifier;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.utils.Common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map.Entry;
 
 import static java.util.stream.Collectors.toList;
 
-public class KNearestNeighborClassifier implements Classifier {
+public class KNearestNeighborIClassifier implements IClassifier {
 
 	private static final int K = 3;
 	
@@ -26,7 +27,7 @@ public class KNearestNeighborClassifier implements Classifier {
 	@Override
 	public ModelClass classify(Sample sample) {
 		if (!isTrained()) {
-			throw new IllegalStateException("Classifier has to be trained first");
+			throw new IllegalStateException("IClassifier has to be trained first");
 		}
 		
 		List<SampleWithClass> kNearestSamples = findKNearestSamplesTo(sample, K);

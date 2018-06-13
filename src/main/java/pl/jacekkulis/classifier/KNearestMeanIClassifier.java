@@ -1,9 +1,13 @@
 package pl.jacekkulis.classifier;
 
 import Jama.Matrix;
+import pl.jacekkulis.exception.EmptyModException;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.utils.ClassStatisticData;
+import pl.jacekkulis.utils.Common;
+import pl.jacekkulis.utils.IDistanceCalculator;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,16 +16,16 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-public class KNearestMeanClassifier implements Classifier {
+public class KNearestMeanIClassifier implements IClassifier {
 
 	private static final double MAXIMAL_ACCEPTABLE_MOD_CENTER_DISLOCATION= 0.000001;
 	private static final double H = 0.1;
 	
-	private DistanceCalculator distanceCalculator;
+	private pl.jacekkulis.utils.IDistanceCalculator IDistanceCalculator;
 	private Map<ModelClass, ClassData> classesStatisticData;
 	
-	public KNearestMeanClassifier(DistanceCalculator distanceCalculator) {
-		this.distanceCalculator = distanceCalculator;
+	public KNearestMeanIClassifier(IDistanceCalculator IDistanceCalculator) {
+		this.IDistanceCalculator = IDistanceCalculator;
 	}
 
 	@Override
@@ -217,7 +221,7 @@ public class KNearestMeanClassifier implements Classifier {
 	@Override
 	public ModelClass classify(Sample sample) {
 		if (!isTrained()) {
-			throw new IllegalStateException("Classifier has to be trained first");
+			throw new IllegalStateException("IClassifier has to be trained first");
 		}
 		
 		ModelClass bestClass = null;
@@ -238,7 +242,7 @@ public class KNearestMeanClassifier implements Classifier {
 		double minimalDistance = Double.MAX_VALUE;
 		
 		for (ClassStatisticData classStatisticData : classData.classStatisticData) {
-			double distance = distanceCalculator.calculate(sample, classStatisticData);
+			double distance = IDistanceCalculator.calculate(sample, classStatisticData);
 			if (distance < minimalDistance) {
 				minimalDistance = distance;
 			}

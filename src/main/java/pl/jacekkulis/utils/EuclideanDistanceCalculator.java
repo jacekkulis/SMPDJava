@@ -1,8 +1,8 @@
-package pl.jacekkulis.classifier;
+package pl.jacekkulis.utils;
 
 import pl.jacekkulis.model.Sample;
 
-public class EuclideanDistanceCalculator implements DistanceCalculator {
+public class EuclideanDistanceCalculator implements IDistanceCalculator {
 
 	@Override
 	public double calculate(Sample sample, ClassStatisticData classStatisticData) {

@@ -1,22 +1,22 @@
-package pl.jacekkulis.classifier;
+package pl.jacekkulis.utils;
 
 import Jama.Matrix;
 
-class ClassStatisticData {
+public class ClassStatisticData {
 
 	private Matrix mean;
 	private Matrix covarianceMatrix;
 	
-	ClassStatisticData(Matrix mean, Matrix covarianceMatrix) {
+	public ClassStatisticData(Matrix mean, Matrix covarianceMatrix) {
 		this.mean = mean;
 		this.covarianceMatrix = covarianceMatrix;
 	}
 
-	Matrix getMean() {
+	public Matrix getMean() {
 		return mean;
 	}
 
-	Matrix getCovarianceMatrix() {
+	public Matrix getCovarianceMatrix() {
 		return covarianceMatrix;
 	}
 	

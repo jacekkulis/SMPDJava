@@ -3,10 +3,11 @@ package pl.jacekkulis.classifier;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.utils.Common;
 
 import java.util.List;
 
-public class NearestNeighborClassifier implements Classifier {
+public class NearestNeighborIClassifier implements IClassifier {
 
 	private List<SampleWithClass> trainSamples;
 	
@@ -18,7 +19,7 @@ public class NearestNeighborClassifier implements Classifier {
 	@Override
 	public ModelClass classify(Sample sample) {
 		if (!isTrained()) {
-			throw new IllegalStateException("Classifier has to be trained first");
+			throw new IllegalStateException("IClassifier has to be trained first");
 		}
 		
 		SampleWithClass nearestNeighborSample = findNearestSample(sample);

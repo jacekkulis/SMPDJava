@@ -4,6 +4,8 @@ import Jama.Matrix;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.utils.ClassStatisticData;
+import pl.jacekkulis.utils.Common;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-public class NearestMeanClassifier implements Classifier {
+public class NearestMeanIClassifier implements IClassifier {
 
 	private Map<ModelClass, ClassStatisticData> classesStatisticData;
 	
@@ -41,7 +43,7 @@ public class NearestMeanClassifier implements Classifier {
 	}
 	
 	private ClassStatisticData calculateClassStatisticDataFrom(List<SampleWithClass> samplesOfClass) {
-		Matrix mean = Common.calculateMean(samplesOfClass);	
+		Matrix mean = Common.calculateMean(samplesOfClass);
 		Matrix covarianceMatrix = Common.calculateCovarianceMatrix(samplesOfClass, mean);
 		
 		return new ClassStatisticData(mean, covarianceMatrix);
@@ -50,7 +52,7 @@ public class NearestMeanClassifier implements Classifier {
 	@Override
 	public ModelClass classify(Sample sample) {
 		if (!isTrained()) {
-			throw new IllegalStateException("Classifier has to be trained first");
+			throw new IllegalStateException("IClassifier has to be trained first");
 		}
 		
 		double minimalMachalonobisDistance = Double.MAX_VALUE;

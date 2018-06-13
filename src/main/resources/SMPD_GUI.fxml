@@ -65,12 +65,17 @@
                      </font>
                   </Label>
                   <TextField fx:id="fieldTrainingPart" layoutX="229.0" layoutY="61.0" prefHeight="25.0" prefWidth="55.0" promptText="80" text="80" />
-                  <Button fx:id="btnClassificationExecute" layoutX="398.0" layoutY="16.0" mnemonicParsing="false" onAction="#classificationExecuteAction" prefHeight="78.0" prefWidth="151.0" text="EXECUTE">
+                  <Button fx:id="btnClassificationExecute" layoutX="400.0" layoutY="74.0" mnemonicParsing="false" onAction="#classificationExecuteAction" prefHeight="40.0" prefWidth="151.0" text="EXECUTE">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Button>
                   <Button layoutX="36.0" layoutY="352.0" mnemonicParsing="false" onAction="#clearAction" prefHeight="25.0" prefWidth="72.0" text="CLEAR" />
+                  <Button fx:id="btnClassificationTrain" layoutX="400.0" layoutY="14.0" mnemonicParsing="false" onAction="#classificiationTrainAction" prefHeight="40.0" prefWidth="151.0" text="TRAIN">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </content>

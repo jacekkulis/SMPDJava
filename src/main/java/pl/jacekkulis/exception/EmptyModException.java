@@ -1,4 +1,4 @@
-package pl.jacekkulis.classifier;
+package pl.jacekkulis.exception;
 
 public class EmptyModException extends RuntimeException {
 
