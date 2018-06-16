@@ -1,12 +1,16 @@
 package pl.jacekkulis.database;
 
 import pl.jacekkulis.model.ModelClass;
+import pl.jacekkulis.model.SampleWithClass;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
 
 public class Database {
 
@@ -119,6 +123,26 @@ public class Database {
         }
 
     }
+
+    public List<SampleWithClass> fetchAllSamples() {
+        List<SampleWithClass> allSamples = new ArrayList<>();
+        classes.stream()
+                .map(toSamplesWithClass)
+                .forEach(samples -> allSamples.addAll(samples));
+
+        return allSamples;
+    }
+
+    private static Function<ModelClass, List<SampleWithClass>> toSamplesWithClass = new Function<ModelClass, List<SampleWithClass>>() {
+        @Override
+        public List<SampleWithClass> apply(ModelClass modelClass) {
+            return modelClass
+                    .getSamples()
+                    .stream()
+                    .map(sample -> new SampleWithClass(sample, modelClass))
+                    .collect(toList());
+        }
+    };
 
     public int getClassCount() {
         return ClassCount;

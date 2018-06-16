@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 
 import static java.util.stream.Collectors.toList;
 
-public class KNearestNeighborIClassifier implements IClassifier {
+public class KNearestNeighborClassifier implements IClassifier {
 
 	private static final int K = 3;
 	

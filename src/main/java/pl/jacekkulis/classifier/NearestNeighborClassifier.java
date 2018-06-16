@@ -7,7 +7,7 @@ import pl.jacekkulis.utils.Common;
 
 import java.util.List;
 
-public class NearestNeighborIClassifier implements IClassifier {
+public class NearestNeighborClassifier implements IClassifier {
 
 	private List<SampleWithClass> trainSamples;
 	

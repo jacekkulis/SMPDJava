@@ -9,26 +9,25 @@ import java.util.*;
 
 public class BootstrapValidator implements IValidator {
 
-	private final int numberOfIterations;
-	
 	private List<SampleWithClass> trainingSamples = new ArrayList<SampleWithClass>();
 	private List<SampleWithClass> testSamples = new ArrayList<SampleWithClass>();
+
+    private List<SampleWithClass> samples;
 	
-	public BootstrapValidator(int numberOfIterations) {
-		this.numberOfIterations = numberOfIterations;
+	public BootstrapValidator() {
 	}
 
 	@Override
-	public double validate(IClassifier IClassifier, List<SampleWithClass> samples) {
+	public double validate(IClassifier classifier, int numberOfIterations) {
+        System.out.println("validate : " + numberOfIterations);
 		List<Double> results = new ArrayList<>();
-		
+
 		int i = 0;
 		while (i < numberOfIterations) {
+            System.out.println("iteration: " + i);
 			try {
-				splitSamplesIntoTrainingAndTestSets(samples);
-				IClassifier.train(trainingSamples);
-				
-				results.add(testClassifier(IClassifier));
+                classifier.train(trainingSamples);
+				results.add(testClassifier(classifier));
 				
 				i += 1;
 			} catch (MatrixIrreversibleException e) { }
@@ -37,19 +36,25 @@ public class BootstrapValidator implements IValidator {
 		return averageOf(results);
 	}
 
-	private void splitSamplesIntoTrainingAndTestSets(List<SampleWithClass> samples) {
+	@Override
+	public void splitSamplesIntoTrainingAndTestSets(int percent) {
 		trainingSamples = new ArrayList<>();
 		testSamples = new ArrayList<>();
 		Set<Integer> usedIndexes = new TreeSet<>();
 		Random random = new Random();
-		
-		for (int i = 0; i < samples.size(); i++) {
+
+		int trainSize = samples.size() * percent/100;
+        System.out.println("TrainSize: " + trainSize);
+
+		for (int i = 0; i < trainSize; i++) {
 			int index = random.nextInt(samples.size());
 			trainingSamples.add(samples.get(index));
 			usedIndexes.add(index);
 		}
-		
-		for (int index = 0; index < samples.size(); index++) {
+
+		int testSize = samples.size() - trainSize;
+        System.out.println("Testsize: " + testSize);
+		for (int index = 0; index < testSize; index++) {
 			if (!usedIndexes.contains(index)) {
 				testSamples.add(samples.get(index));
 			}
@@ -78,4 +83,7 @@ public class BootstrapValidator implements IValidator {
 		return sum / results.size();
 	}
 
+    public void setSamples(List<SampleWithClass> samples) {
+        this.samples = samples;
+    }
 }

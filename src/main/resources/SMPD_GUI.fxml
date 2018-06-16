@@ -43,7 +43,7 @@
                </children></AnchorPane>
       </content>
     </Tab>
-      <Tab text="Classification">
+      <Tab text="Classification and validation">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -53,18 +53,18 @@
                      </font>
                   </Label>
                   <ComboBox fx:id="boxClassification" layoutX="229.0" layoutY="18.0" prefHeight="25.0" prefWidth="142.0" promptText="Choose method" />
-                  <Label layoutX="36.0" layoutY="107.0" text="Results">
+                  <Label layoutX="36.0" layoutY="162.0" text="Results">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="classificationResults" layoutX="36.0" layoutY="139.0" prefHeight="202.0" prefWidth="528.0" wrapText="true" />
-                  <Label fx:id="labTrainingPart" layoutX="36.0" layoutY="60.0" text="Training part [%]:">
+                  <TextArea fx:id="classificationResults" layoutX="36.0" layoutY="189.0" prefHeight="152.0" prefWidth="528.0" wrapText="true" />
+                  <Label fx:id="labTrainingPart" layoutX="36.0" layoutY="49.0" text="Training part [%]:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="fieldTrainingPart" layoutX="229.0" layoutY="61.0" prefHeight="25.0" prefWidth="55.0" promptText="80" text="80" />
+                  <TextField fx:id="fieldTrainingPart" layoutX="229.0" layoutY="50.0" prefHeight="25.0" prefWidth="55.0" promptText="80" text="80" />
                   <Button fx:id="btnClassificationExecute" layoutX="400.0" layoutY="74.0" mnemonicParsing="false" onAction="#classificationExecuteAction" prefHeight="40.0" prefWidth="151.0" text="EXECUTE">
                      <font>
                         <Font size="22.0" />
@@ -76,38 +76,18 @@
                         <Font size="22.0" />
                      </font>
                   </Button>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
-      <Tab text="Validation">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="36.0" layoutY="124.0" text="Results">
+                  <Label fx:id="labValidationMethod" layoutX="36.0" layoutY="85.0" text="Validation method:">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="validationResults" layoutX="36.0" layoutY="151.0" prefHeight="190.0" prefWidth="528.0" wrapText="true" />
-                  <Label fx:id="labValidationMethod" layoutX="36.0" layoutY="28.0" text="Validation method:">
+                  <ComboBox fx:id="boxValidation" layoutX="229.0" layoutY="86.0" onAction="#validationMethodChange" prefHeight="25.0" prefWidth="142.0" promptText="Choose method" />
+                  <Label fx:id="labValidation" layoutX="36.0" layoutY="122.0" text="Number of sets:">
                      <font>
-                        <Font size="22.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="boxValidation" layoutX="240.0" layoutY="31.0" onAction="#validationMethodChange" prefHeight="25.0" prefWidth="142.0" promptText="Choose method" />
-                  <Label fx:id="labValidation" layoutX="36.0" layoutY="70.0" text="Number of sets:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="fieldValidation" layoutX="240.0" layoutY="74.0" prefHeight="25.0" prefWidth="142.0" promptText="number" />
-                  <Button fx:id="btnValidationExecute" layoutX="418.0" layoutY="22.0" mnemonicParsing="false" onAction="#validationExecuteAction" prefHeight="77.0" prefWidth="146.0" text="EXECUTE">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Button>
-                  <Button layoutX="36.0" layoutY="352.0" mnemonicParsing="false" onAction="#clearAction" prefHeight="25.0" prefWidth="74.0" text="CLEAR" />
+                  <TextField fx:id="fieldValidation" layoutX="229.0" layoutY="123.0" prefHeight="25.0" prefWidth="82.0" promptText="number" text="2" />
                </children>
             </AnchorPane>
          </content>

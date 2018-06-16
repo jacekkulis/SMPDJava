@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-public class NearestMeanIClassifier implements IClassifier {
+public class NearestMeanClassifier implements IClassifier {
 
 	private Map<ModelClass, ClassStatisticData> classesStatisticData;
 	

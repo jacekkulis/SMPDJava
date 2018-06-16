@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IValidator {
 
-	double validate(IClassifier IClassifier, List<SampleWithClass> samples);
-	
+	double validate(IClassifier IClassifier, int numberOfIterations);
+
+	void splitSamplesIntoTrainingAndTestSets(int percent);
 }

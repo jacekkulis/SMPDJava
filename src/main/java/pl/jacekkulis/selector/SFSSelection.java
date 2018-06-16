@@ -8,11 +8,11 @@ import java.util.List;
 public class SFSSelection implements ISelector {
 
     private Database db;
-    private FischerSelection selector;
+    private FischerSelection fischerSelector;
 
     public SFSSelection(Database database) {
         db = database;
-        selector = new FischerSelection(db);
+        fischerSelector = new FischerSelection(db);
 
     }
 
@@ -26,7 +26,7 @@ public class SFSSelection implements ISelector {
         double FLD = 0, tmp;
         int bestFeatureIndex = -1;
         for (int i = 0; i < db.getFeatureCount(); i++) {
-            if ((tmp = selector.selectBestFeatureUsingFischerFor1D(db.getFeatures()[i])) > FLD) {
+            if ((tmp = fischerSelector.selectBestFeatureUsingFischerFor1D(db.getFeatures()[i])) > FLD) {
                 FLD = tmp;
                 bestFeatureIndex = i;
             }
@@ -48,7 +48,7 @@ public class SFSSelection implements ISelector {
                 }
                 featureIndexes[i] = j;
 
-                tmp = selector.calculateFischerFor2DOrMore(featureIndexes);
+                tmp = fischerSelector.calculateFischerFor2DOrMore(featureIndexes);
                 if (tmp > fisherDiscriminant) {
                     fisherDiscriminant = tmp;
                     bestFeatureIndexes.set(i, j);
