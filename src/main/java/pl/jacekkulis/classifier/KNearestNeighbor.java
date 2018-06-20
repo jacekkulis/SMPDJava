@@ -3,7 +3,7 @@ package pl.jacekkulis.classifier;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
-import pl.jacekkulis.utils.Common;
+import pl.jacekkulis.utils.MathUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import java.util.Map.Entry;
 
 import static java.util.stream.Collectors.toList;
 
-public class KNearestNeighborClassifier implements IClassifier {
+public class KNearestNeighbor implements IClassifier {
 
-	private static final int K = 3;
+	private static final int K = 5;
 	
 	private List<SampleWithClass> trainSamples;
 	
@@ -38,7 +38,7 @@ public class KNearestNeighborClassifier implements IClassifier {
 		List<SampleDistance> result = new ArrayList<>();
 		
 		for (SampleWithClass trainSample : trainSamples) {
-			double euclideanDistance = Common.calculateEuclideanDistance(trainSample, sample);
+			double euclideanDistance = MathUtil.calculateEuclideanDistance(trainSample, sample);
 			SampleDistance sampleDistance = new SampleDistance(trainSample, euclideanDistance);
 			result.add(sampleDistance);
 		}

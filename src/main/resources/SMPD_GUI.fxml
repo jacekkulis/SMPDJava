@@ -82,7 +82,7 @@
                      </font>
                   </Label>
                   <ComboBox fx:id="boxValidation" layoutX="229.0" layoutY="86.0" onAction="#validationMethodChange" prefHeight="25.0" prefWidth="142.0" promptText="Choose method" />
-                  <Label fx:id="labValidation" layoutX="36.0" layoutY="122.0" text="Number of sets:">
+                  <Label fx:id="labValidation" layoutX="36.0" layoutY="122.0" text="Number of iterations:">
                      <font>
                         <Font size="18.0" />
                      </font>

@@ -5,7 +5,7 @@ import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
 import pl.jacekkulis.utils.ClassStatisticData;
-import pl.jacekkulis.utils.Common;
+import pl.jacekkulis.utils.MathUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-public class NearestMeanClassifier implements IClassifier {
+public class NearestMean implements IClassifier {
 
 	private Map<ModelClass, ClassStatisticData> classesStatisticData;
 	
@@ -43,8 +43,8 @@ public class NearestMeanClassifier implements IClassifier {
 	}
 	
 	private ClassStatisticData calculateClassStatisticDataFrom(List<SampleWithClass> samplesOfClass) {
-		Matrix mean = Common.calculateMean(samplesOfClass);
-		Matrix covarianceMatrix = Common.calculateCovarianceMatrix(samplesOfClass, mean);
+		Matrix mean = MathUtil.calculateMean(samplesOfClass);
+		Matrix covarianceMatrix = MathUtil.calculateCovarianceMatrix(samplesOfClass, mean);
 		
 		return new ClassStatisticData(mean, covarianceMatrix);
 	}
@@ -59,7 +59,7 @@ public class NearestMeanClassifier implements IClassifier {
 		ModelClass nearestMeanClass = null;
 		
 		for (Entry<ModelClass, ClassStatisticData> entry : classesStatisticData.entrySet()) {
-			double machalonobisDistance = Common.calculateMahalonobisDistance(sample, entry.getValue());
+			double machalonobisDistance = MathUtil.calculateMahalonobisDistance(sample, entry.getValue());
 			if (machalonobisDistance < minimalMachalonobisDistance) {
 				minimalMachalonobisDistance = machalonobisDistance;
 				nearestMeanClass = entry.getKey();

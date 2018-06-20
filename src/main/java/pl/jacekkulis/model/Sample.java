@@ -16,7 +16,7 @@ public class Sample {
 		this.features = unmodifiableList(new ArrayList<>(features));
 	}
 	
-	List<Double> getFeatures() {
+	public List<Double> getFeatures() {
 		return Collections.unmodifiableList(features);
 	}
 	

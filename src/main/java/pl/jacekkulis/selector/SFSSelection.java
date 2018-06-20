@@ -1,6 +1,7 @@
 package pl.jacekkulis.selector;
 
 import pl.jacekkulis.database.Database;
+import pl.jacekkulis.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,27 +14,17 @@ public class SFSSelection implements ISelector {
     public SFSSelection(Database database) {
         db = database;
         fischerSelector = new FischerSelection(db);
-
     }
 
     @Override
     public List<Integer> select(int dim) {
-        return selectBestFeatureIndexesUsingSFS(dim);
-    }
+        List<Integer> bestFeatureIndexes = new ArrayList<>(dim);
+        Pair pair = findBestFeatureIndexAndValue();
 
-    private List<Integer> selectBestFeatureIndexesUsingSFS(int dimension) {
-        List<Integer> bestFeatureIndexes = new ArrayList<>(dimension);
-        double FLD = 0, tmp;
-        int bestFeatureIndex = -1;
-        for (int i = 0; i < db.getFeatureCount(); i++) {
-            if ((tmp = fischerSelector.selectBestFeatureUsingFischerFor1D(db.getFeatures()[i])) > FLD) {
-                FLD = tmp;
-                bestFeatureIndex = i;
-            }
-        }
-        bestFeatureIndexes.add(bestFeatureIndex);
+        bestFeatureIndexes.add(pair.getI());
+        double tmp = pair.getD();
 
-        for (int i = 1; i < dimension; i++) {
+        for (int i = 1; i < dim; i++) {
             double fisherDiscriminant = Double.MIN_VALUE;
             bestFeatureIndexes.add(-1);
 
@@ -57,5 +48,18 @@ public class SFSSelection implements ISelector {
         }
 
         return bestFeatureIndexes;
+    }
+
+    private Pair findBestFeatureIndexAndValue(){
+        double FLD = 0, tmp = 0;
+        int bestFeatureIndex = -1;
+        for (int i = 0; i < db.getFeatureCount(); i++) {
+            if ((tmp = fischerSelector.selectBestFeatureUsingFischerFor1D(db.getFeatures()[i])) > FLD) {
+                FLD = tmp;
+                bestFeatureIndex = i;
+            }
+        }
+
+        return new Pair(bestFeatureIndex, tmp);
     }
 }

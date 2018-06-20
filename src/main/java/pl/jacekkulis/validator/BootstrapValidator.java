@@ -18,19 +18,20 @@ public class BootstrapValidator implements IValidator {
 	}
 
 	@Override
-	public double validate(IClassifier classifier, int numberOfIterations) {
-        System.out.println("validate : " + numberOfIterations);
+	public double validate(IClassifier classifier, int numberOfIterations, int percent) {
 		List<Double> results = new ArrayList<>();
 
 		int i = 0;
 		while (i < numberOfIterations) {
-            System.out.println("iteration: " + i);
+            splitSamplesIntoTrainingAndTestSets(percent);
 			try {
                 classifier.train(trainingSamples);
 				results.add(testClassifier(classifier));
 				
 				i += 1;
-			} catch (MatrixIrreversibleException e) { }
+			} catch (MatrixIrreversibleException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		
 		return averageOf(results);

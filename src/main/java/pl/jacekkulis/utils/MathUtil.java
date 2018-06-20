@@ -2,13 +2,15 @@ package pl.jacekkulis.utils;
 
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import pl.jacekkulis.exception.MatrixIrreversibleException;
 import pl.jacekkulis.model.Sample;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Common {
+public class MathUtil {
 
 	/**
 	  * The difference between 1 and the smallest exactly representable number
@@ -17,12 +19,12 @@ public class Common {
 	  */
 	private static final double MACHEPS = 2E-16;
 	
-	private Common() {}
+	private MathUtil() {}
 	
 	public static double calculateEuclideanDistance(Sample first, Sample second) {
 		return calculateEuclideanDistance(first.getFeaturesMatrix(), second.getFeaturesMatrix());
 	}
-	
+
 	public static double calculateEuclideanDistance(Matrix first, Matrix second) {
 		Matrix matrix = first.minus(second);
 		matrix.arrayTimesEquals(matrix);

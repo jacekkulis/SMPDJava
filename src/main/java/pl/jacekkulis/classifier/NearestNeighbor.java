@@ -3,11 +3,11 @@ package pl.jacekkulis.classifier;
 import pl.jacekkulis.model.ModelClass;
 import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.model.SampleWithClass;
-import pl.jacekkulis.utils.Common;
+import pl.jacekkulis.utils.MathUtil;
 
 import java.util.List;
 
-public class NearestNeighborClassifier implements IClassifier {
+public class NearestNeighbor implements IClassifier {
 
 	private List<SampleWithClass> trainSamples;
 	
@@ -31,7 +31,7 @@ public class NearestNeighborClassifier implements IClassifier {
 		double minimumDistance = Double.MAX_VALUE;
 		
 		for (SampleWithClass trainSample : trainSamples) {
-			double distance = Common.calculateEuclideanDistance(sample, trainSample);
+			double distance = MathUtil.calculateEuclideanDistance(sample, trainSample);
 			
 			if (distance < minimumDistance) {
 				minimumDistance = distance;

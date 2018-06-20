@@ -1,44 +1,30 @@
 package pl.jacekkulis.controller;
 
-import Jama.Matrix;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.apache.commons.math3.util.Combinations;
 import pl.jacekkulis.classifier.IClassifier;
-import pl.jacekkulis.classifier.KNearestNeighborClassifier;
-import pl.jacekkulis.classifier.NearestMeanClassifier;
-import pl.jacekkulis.classifier.NearestNeighborClassifier;
+import pl.jacekkulis.classifier.KNearestNeighbor;
+import pl.jacekkulis.classifier.NearestMean;
+import pl.jacekkulis.classifier.NearestNeighbor;
 import pl.jacekkulis.database.Database;
-import pl.jacekkulis.model.SampleWithClass;
 import pl.jacekkulis.selector.FischerSelection;
 import pl.jacekkulis.selector.ISelector;
 import pl.jacekkulis.selector.SFSSelection;
-import pl.jacekkulis.utils.Common;
-import pl.jacekkulis.model.ModelClass;
-import pl.jacekkulis.model.Sample;
 import pl.jacekkulis.validator.BootstrapValidator;
 import pl.jacekkulis.validator.IValidator;
-
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
-
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 
 public class SmpdController {
 
     /*Selection*/
     @FXML
-    private ComboBox boxDimension;
+    private ComboBox<Integer> boxDimension;
     @FXML
-    private ComboBox boxSelection;
+    private ComboBox<String> boxSelection;
     @FXML
     private Button btnSelectionExecute;
     @FXML
@@ -61,8 +47,6 @@ public class SmpdController {
     private Label labValidation;
 
     private Database db;
-
-    double[][] FNew;
 
     @FXML
     public void initialize() {
@@ -130,11 +114,11 @@ public class SmpdController {
         int classificationMethod = (int)boxClassification.getSelectionModel().getSelectedIndex();
 
         if (classificationMethod == 0){
-            classifier = new NearestNeighborClassifier();
+            classifier = new NearestNeighbor();
         } else if (classificationMethod == 1){
-            classifier = new NearestMeanClassifier();
+            classifier = new NearestMean();
         } else if (classificationMethod == 2){
-            classifier = new KNearestNeighborClassifier();
+            classifier = new KNearestNeighbor();
         } else {
             throw new IllegalStateException("Unsupported index " + classificationMethod);
         }
@@ -169,7 +153,8 @@ public class SmpdController {
         initClassifier();
 
         int iterations = Integer.parseInt(fieldValidation.getText());
-        double result = validator.validate(classifier, iterations) * 100;
+        int percent = Integer.parseInt(fieldTrainingPart.getText());
+        double result = validator.validate(classifier, iterations, percent) * 100;
         classificationResults.appendText(new DecimalFormat("#.#").format(result) + " %\n");
     }
 

@@ -4,7 +4,7 @@ import Jama.Matrix;
 import org.apache.commons.math3.util.Combinations;
 import pl.jacekkulis.database.Database;
 import pl.jacekkulis.model.Sample;
-import pl.jacekkulis.utils.Common;
+import pl.jacekkulis.utils.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,27 +35,32 @@ public class FischerSelection implements ISelector{
             return asList(bestFeatureIndex);
         } else if (dimension > 1) {
             int[] bestFeatureIndexes = null;
-            double fisherDiscriminant = Double.MIN_VALUE;
+            double FLD = Double.MIN_VALUE;
 
             Combinations combinations = new Combinations(db.getFeatures().length, dimension);
             for (int[] combination : combinations) {
                 double tmp = calculateFischerFor2DOrMore(combination);
-                if (tmp > fisherDiscriminant) {
-                    fisherDiscriminant = tmp;
+                if (tmp > FLD) {
+                    FLD = tmp;
                     bestFeatureIndexes = combination;
                 }
             }
 
-            List<Integer> listOfBestFeatureIndexes = IntStream.of(bestFeatureIndexes)
+            return IntStream.of(bestFeatureIndexes)
                     .boxed()
                     .collect(toList());
-
-            return listOfBestFeatureIndexes;
         } else {
             throw new IllegalArgumentException("Illegal number of features <" + dimension + "> to select");
         }
     }
 
+
+
+    /**
+     *  Calculates fischer value for features passed as parameter.
+     * @param values Feature va lue s.
+     * @return Best feature fischer value
+     */
     public double selectBestFeatureUsingFischerFor1D(double[] values) {
         double avgA = 0, avgB = 0, stdA = 0, stdB = 0;
         for (int i = 0; i < values.length; i++) {
@@ -68,11 +73,11 @@ public class FischerSelection implements ISelector{
             }
         }
 
-
         avgA /= db.getSampleCount()[0];
         avgB /= db.getSampleCount()[1];
         stdA = stdA / db.getSampleCount()[0] - avgA * avgA;
         stdB = stdB / db.getSampleCount()[1] - avgB * avgB;
+
         return Math.abs(avgA - avgB) / (Math.sqrt(stdA) + Math.sqrt(stdB));
     }
 
@@ -88,7 +93,7 @@ public class FischerSelection implements ISelector{
         for (int i = 0; i < db.getFeatures()[0].length; i++) {
             List<Double> features = new ArrayList<>();
             for (int featureIndex : featureIndexes) {
-                features.add(this.db.getFeatures()[featureIndex][i]);
+                features.add(db.getFeatures()[featureIndex][i]);
             }
 
             if (db.getClassLabels()[i] == 0) {
@@ -98,12 +103,12 @@ public class FischerSelection implements ISelector{
             }
         }
 
-        Matrix meanOfFirstClass = Common.calculateMean(samplesOfFirstClass);
-        Matrix meanOfSecondClass = Common.calculateMean(samplesOfSecondClass);
+        Matrix meanOfFirstClass = MathUtil.calculateMean(samplesOfFirstClass);
+        Matrix meanOfSecondClass = MathUtil.calculateMean(samplesOfSecondClass);
 
-        Matrix covarianceMatrixOfFirstClass = Common.calculateCovarianceMatrix(samplesOfFirstClass, meanOfFirstClass);
-        Matrix covarianceMatrixOfSecondClass = Common.calculateCovarianceMatrix(samplesOfSecondClass, meanOfSecondClass);
+        Matrix covarianceMatrixOfFirstClass = MathUtil.calculateCovarianceMatrix(samplesOfFirstClass, meanOfFirstClass);
+        Matrix covarianceMatrixOfSecondClass = MathUtil.calculateCovarianceMatrix(samplesOfSecondClass, meanOfSecondClass);
 
-        return Common.calculateEuclideanDistance(meanOfFirstClass, meanOfSecondClass) / (covarianceMatrixOfFirstClass.det() + covarianceMatrixOfSecondClass.det());
+        return MathUtil.calculateEuclideanDistance(meanOfFirstClass, meanOfSecondClass) / (covarianceMatrixOfFirstClass.det() + covarianceMatrixOfSecondClass.det());
     }
 }
