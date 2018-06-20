@@ -1,8 +1,7 @@
 package pl.jacekkulis.selector;
 
 import pl.jacekkulis.database.Database;
-import pl.jacekkulis.database.IDatabase;
-import pl.jacekkulis.model.ModelClass;
+import pl.jacekkulis.model.Class;
 import pl.jacekkulis.model.Sample;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public interface ISelector {
         db.setClasses(new ArrayList<>());
 
         for (String className : db.getClassNames()) {
-            db.getClasses().add(new ModelClass(className));
+            db.getClasses().add(new Class(className));
         }
 
         for (int j = 0; j < db.getFeatures()[0].length; j++) {

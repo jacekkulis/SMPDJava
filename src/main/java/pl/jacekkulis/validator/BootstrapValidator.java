@@ -2,17 +2,17 @@ package pl.jacekkulis.validator;
 
 import pl.jacekkulis.classifier.IClassifier;
 import pl.jacekkulis.exception.MatrixIrreversibleException;
-import pl.jacekkulis.model.ModelClass;
-import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.model.Class;
+import pl.jacekkulis.model.SampleClass;
 
 import java.util.*;
 
 public class BootstrapValidator implements IValidator {
 
-	private List<SampleWithClass> trainingSamples = new ArrayList<SampleWithClass>();
-	private List<SampleWithClass> testSamples = new ArrayList<SampleWithClass>();
+	private List<SampleClass> trainingSamples = new ArrayList<SampleClass>();
+	private List<SampleClass> testSamples = new ArrayList<SampleClass>();
 
-    private List<SampleWithClass> samples;
+    private List<SampleClass> samples;
 	
 	public BootstrapValidator() {
 	}
@@ -65,9 +65,9 @@ public class BootstrapValidator implements IValidator {
 	private double testClassifier(IClassifier IClassifier) {
 		int numberOfValidClassifications = 0;
 		
-		for (SampleWithClass sample : testSamples) {
-			ModelClass modelClass = IClassifier.classify(sample);
-			if (modelClass.equals(sample.getModelClass())) {
+		for (SampleClass sample : testSamples) {
+			Class aClass = IClassifier.classify(sample);
+			if (aClass.equals(sample.getaClass())) {
 				numberOfValidClassifications += 1;
 			}
 		}
@@ -84,7 +84,7 @@ public class BootstrapValidator implements IValidator {
 		return sum / results.size();
 	}
 
-    public void setSamples(List<SampleWithClass> samples) {
+    public void setSamples(List<SampleClass> samples) {
         this.samples = samples;
     }
 }

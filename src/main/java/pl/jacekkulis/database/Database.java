@@ -1,7 +1,7 @@
 package pl.jacekkulis.database;
 
-import pl.jacekkulis.model.ModelClass;
-import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.model.Class;
+import pl.jacekkulis.model.SampleClass;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ public class Database {
     public double[][] features, FNew; // original feature matrix and transformed feature matrix
     public int[] ClassLabels, SampleCount;
     public String[] ClassNames;
-    public List<ModelClass> classes;
+    public List<Class> classes;
 
     public Database() {
         dataFromFile = readDataFromFile("Maple_Oak.txt");
@@ -124,8 +124,8 @@ public class Database {
 
     }
 
-    public List<SampleWithClass> fetchAllSamples() {
-        List<SampleWithClass> allSamples = new ArrayList<>();
+    public List<SampleClass> fetchAllSamples() {
+        List<SampleClass> allSamples = new ArrayList<>();
         classes.stream()
                 .map(toSamplesWithClass)
                 .forEach(samples -> allSamples.addAll(samples));
@@ -133,13 +133,13 @@ public class Database {
         return allSamples;
     }
 
-    private static Function<ModelClass, List<SampleWithClass>> toSamplesWithClass = new Function<ModelClass, List<SampleWithClass>>() {
+    private static Function<Class, List<SampleClass>> toSamplesWithClass = new Function<Class, List<SampleClass>>() {
         @Override
-        public List<SampleWithClass> apply(ModelClass modelClass) {
-            return modelClass
+        public List<SampleClass> apply(Class aClass) {
+            return aClass
                     .getSamples()
                     .stream()
-                    .map(sample -> new SampleWithClass(sample, modelClass))
+                    .map(sample -> new SampleClass(sample, aClass))
                     .collect(toList());
         }
     };
@@ -192,11 +192,11 @@ public class Database {
         ClassNames = classNames;
     }
 
-    public List<ModelClass> getClasses() {
+    public List<Class> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<ModelClass> classes) {
+    public void setClasses(List<Class> classes) {
         this.classes = classes;
     }
 

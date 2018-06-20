@@ -2,13 +2,11 @@ package pl.jacekkulis.utils;
 
 import Jama.Matrix;
 import Jama.SingularValueDecomposition;
-import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import pl.jacekkulis.exception.MatrixIrreversibleException;
 import pl.jacekkulis.model.Sample;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MathUtil {
 
@@ -38,18 +36,18 @@ public class MathUtil {
 		return Math.sqrt(result);
 	}
 	
-	public static double calculateMahalonobisDistance(Sample sample, ClassStatisticData classStatisticData) {
+	public static double calculateMahalonobisDistance(Sample sample, ClassData classData) {
 		Matrix invertedCovarianceMatrix;
 		try {
-			invertedCovarianceMatrix = classStatisticData.getCovarianceMatrix().inverse();
+			invertedCovarianceMatrix = classData.getCovarianceMatrix().inverse();
 		} catch (RuntimeException exception) {
-			invertedCovarianceMatrix = pseudoinverseMoorePenrose(classStatisticData.getCovarianceMatrix());
+			invertedCovarianceMatrix = pseudoinverseMoorePenrose(classData.getCovarianceMatrix());
 			if (invertedCovarianceMatrix == null) {
 				throw new MatrixIrreversibleException();
 			}
 		}
 		
-		Matrix matrix = sample.getFeaturesMatrix().minusEquals(classStatisticData.getMean());
+		Matrix matrix = sample.getFeaturesMatrix().minusEquals(classData.getMean());
 		matrix = matrix
 				.times(invertedCovarianceMatrix)
 				.times(matrix.transpose());

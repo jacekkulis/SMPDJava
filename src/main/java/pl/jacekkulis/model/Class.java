@@ -3,12 +3,12 @@ package pl.jacekkulis.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelClass {
+public class Class {
 
 	private final String name;
 	private final List<Sample> samples = new ArrayList<>();
 
-	public ModelClass(String name) {
+	public Class(String name) {
 		this.name = name;
 	}
 

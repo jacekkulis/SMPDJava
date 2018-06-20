@@ -1,8 +1,8 @@
 package pl.jacekkulis.classifier;
 
-import pl.jacekkulis.model.ModelClass;
+import pl.jacekkulis.model.Class;
 import pl.jacekkulis.model.Sample;
-import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.model.SampleClass;
 import pl.jacekkulis.utils.MathUtil;
 
 import java.util.ArrayList;
@@ -15,29 +15,29 @@ import static java.util.stream.Collectors.toList;
 
 public class KNearestNeighbor implements IClassifier {
 
-	private static final int K = 5;
+	private static final int K = 3;
 	
-	private List<SampleWithClass> trainSamples;
+	private List<SampleClass> trainSamples;
 	
 	@Override
-	public void train(List<SampleWithClass> trainSamples) {
+	public void train(List<SampleClass> trainSamples) {
 		this.trainSamples = trainSamples;
 	}
 
 	@Override
-	public ModelClass classify(Sample sample) {
+	public Class classify(Sample sample) {
 		if (!isTrained()) {
 			throw new IllegalStateException("IClassifier has to be trained first");
 		}
 		
-		List<SampleWithClass> kNearestSamples = findKNearestSamplesTo(sample, K);
+		List<SampleClass> kNearestSamples = findKNearestSamplesTo(sample, K);
 		return findTheMostCommonClassOf(kNearestSamples);
 	}
 
-	private List<SampleWithClass> findKNearestSamplesTo(Sample sample, int k) {
+	private List<SampleClass> findKNearestSamplesTo(Sample sample, int k) {
 		List<SampleDistance> result = new ArrayList<>();
 		
-		for (SampleWithClass trainSample : trainSamples) {
+		for (SampleClass trainSample : trainSamples) {
 			double euclideanDistance = MathUtil.calculateEuclideanDistance(trainSample, sample);
 			SampleDistance sampleDistance = new SampleDistance(trainSample, euclideanDistance);
 			result.add(sampleDistance);
@@ -51,17 +51,17 @@ public class KNearestNeighbor implements IClassifier {
 			.subList(0, k);
 	}
 	
-	private ModelClass findTheMostCommonClassOf(List<SampleWithClass> samples) {
-		Map<ModelClass, Integer> map = new HashMap<>();
+	private Class findTheMostCommonClassOf(List<SampleClass> samples) {
+		Map<Class, Integer> map = new HashMap<>();
 
-	    for (SampleWithClass sample : samples) {
-	        Integer val = map.get(sample.getModelClass());
-	        map.put(sample.getModelClass(), val == null ? 1 : val + 1);
+	    for (SampleClass sample : samples) {
+	        Integer val = map.get(sample.getaClass());
+	        map.put(sample.getaClass(), val == null ? 1 : val + 1);
 	    }
 
-	    Entry<ModelClass, Integer> max = null;
+	    Entry<Class, Integer> max = null;
 
-	    for (Entry<ModelClass, Integer> e : map.entrySet()) {
+	    for (Entry<Class, Integer> e : map.entrySet()) {
 	        if (max == null || e.getValue() > max.getValue())
 	            max = e;
 	    }
@@ -76,10 +76,10 @@ public class KNearestNeighbor implements IClassifier {
 	
 	private static class SampleDistance {
 		
-		SampleWithClass sample;
+		SampleClass sample;
 		double distance;
 		
-		SampleDistance(SampleWithClass sample, double distance) {
+		SampleDistance(SampleClass sample, double distance) {
 			this.sample = sample;
 			this.distance = distance;
 		}

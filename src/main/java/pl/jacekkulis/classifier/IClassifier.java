@@ -1,16 +1,16 @@
 package pl.jacekkulis.classifier;
 
-import pl.jacekkulis.model.ModelClass;
+import pl.jacekkulis.model.Class;
 import pl.jacekkulis.model.Sample;
-import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.model.SampleClass;
 
 import java.util.List;
 
 public interface IClassifier {
 
-	void train(List<SampleWithClass> trainSamples);
+	void train(List<SampleClass> trainSamples);
 
-	ModelClass classify(Sample sample);
+	Class classify(Sample sample);
 
 	boolean isTrained();
 	

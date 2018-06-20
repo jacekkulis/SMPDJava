@@ -1,36 +1,36 @@
 package pl.jacekkulis.classifier;
 
-import pl.jacekkulis.model.ModelClass;
+import pl.jacekkulis.model.Class;
 import pl.jacekkulis.model.Sample;
-import pl.jacekkulis.model.SampleWithClass;
+import pl.jacekkulis.model.SampleClass;
 import pl.jacekkulis.utils.MathUtil;
 
 import java.util.List;
 
 public class NearestNeighbor implements IClassifier {
 
-	private List<SampleWithClass> trainSamples;
+	private List<SampleClass> trainSamples;
 	
 	@Override
-	public void train(List<SampleWithClass> trainSamples) {
+	public void train(List<SampleClass> trainSamples) {
 		this.trainSamples = trainSamples;
 	}
 
 	@Override
-	public ModelClass classify(Sample sample) {
+	public Class classify(Sample sample) {
 		if (!isTrained()) {
 			throw new IllegalStateException("IClassifier has to be trained first");
 		}
 		
-		SampleWithClass nearestNeighborSample = findNearestSample(sample);
-		return nearestNeighborSample.getModelClass();
+		SampleClass nearestNeighborSample = findNearestSample(sample);
+		return nearestNeighborSample.getaClass();
 	}
 
-	private SampleWithClass findNearestSample(Sample sample) {
-		SampleWithClass nearestNeighborSample = null;
+	private SampleClass findNearestSample(Sample sample) {
+		SampleClass nearestNeighborSample = null;
 		double minimumDistance = Double.MAX_VALUE;
 		
-		for (SampleWithClass trainSample : trainSamples) {
+		for (SampleClass trainSample : trainSamples) {
 			double distance = MathUtil.calculateEuclideanDistance(sample, trainSample);
 			
 			if (distance < minimumDistance) {
