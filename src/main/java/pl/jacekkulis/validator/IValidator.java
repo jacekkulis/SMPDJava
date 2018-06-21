@@ -6,5 +6,5 @@ public interface IValidator {
 
 	double validate(IClassifier IClassifier, int numberOfIterations, int percent);
 
-	void splitSamplesIntoTrainingAndTestSets(int percent);
+	void setTestAndTrainingSet(int percent);
 }

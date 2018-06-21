@@ -13,11 +13,11 @@ import java.util.stream.IntStream;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
-public class FischerSelection implements ISelector{
+public class Fischer implements ISelector{
 
     private Database db;
 
-    public FischerSelection(Database database) {
+    public Fischer(Database database) {
         db = database;
     }
 

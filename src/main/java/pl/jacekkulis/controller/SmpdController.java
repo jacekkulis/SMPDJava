@@ -8,14 +8,15 @@ import pl.jacekkulis.classifier.KNearestNeighbor;
 import pl.jacekkulis.classifier.NearestMean;
 import pl.jacekkulis.classifier.NearestNeighbor;
 import pl.jacekkulis.database.Database;
-import pl.jacekkulis.selector.FischerSelection;
+import pl.jacekkulis.selector.Fischer;
 import pl.jacekkulis.selector.ISelector;
-import pl.jacekkulis.selector.SFSSelection;
-import pl.jacekkulis.validator.BootstrapValidator;
+import pl.jacekkulis.selector.SFS;
+import pl.jacekkulis.validator.Bootstrap;
 import pl.jacekkulis.validator.IValidator;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 public class SmpdController {
@@ -90,10 +91,10 @@ public class SmpdController {
         ISelector selector;
         if (method == 0){
             selectionResults.appendText("Fischer method\n");
-            selector = new FischerSelection(db);
+            selector = new Fischer(db);
         } else {
             selectionResults.appendText("SFS method\n");
-            selector = new SFSSelection(db);
+            selector = new SFS(db);
         }
 
         List<Integer> bestFeatureIndexes = selector.select(numberOfFeaturesToSelect);
@@ -129,7 +130,7 @@ public class SmpdController {
     private void initValidator(){
         int validationMethod = (int)boxValidation.getSelectionModel().getSelectedIndex();
         if (validationMethod == 0){
-            validator = new BootstrapValidator();
+            validator = new Bootstrap();
         } else if (validationMethod == 1){
             throw new IllegalStateException("Unsupported validator.");
         } else {
@@ -143,8 +144,9 @@ public class SmpdController {
 
         int percent = Integer.parseInt(fieldTrainingPart.getText());
 
-        ((BootstrapValidator) validator).setSamples(db.fetchAllSamples());
-        validator.splitSamplesIntoTrainingAndTestSets(percent);
+        Collections.shuffle(db.fetchAllSamples());
+        ((Bootstrap) validator).setSamples(db.fetchAllSamples());
+        validator.setTestAndTrainingSet(percent);
     }
 
 

@@ -6,14 +6,14 @@ import pl.jacekkulis.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SFSSelection implements ISelector {
+public class SFS implements ISelector {
 
     private Database db;
-    private FischerSelection fischerSelector;
+    private Fischer fischerSelector;
 
-    public SFSSelection(Database database) {
+    public SFS(Database database) {
         db = database;
-        fischerSelector = new FischerSelection(db);
+        fischerSelector = new Fischer(db);
     }
 
     @Override

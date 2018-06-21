@@ -7,14 +7,14 @@ import pl.jacekkulis.model.SampleClass;
 
 import java.util.*;
 
-public class BootstrapValidator implements IValidator {
+public class Bootstrap implements IValidator {
 
 	private List<SampleClass> trainingSamples = new ArrayList<SampleClass>();
 	private List<SampleClass> testSamples = new ArrayList<SampleClass>();
 
     private List<SampleClass> samples;
 	
-	public BootstrapValidator() {
+	public Bootstrap() {
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class BootstrapValidator implements IValidator {
 
 		int i = 0;
 		while (i < numberOfIterations) {
-            splitSamplesIntoTrainingAndTestSets(percent);
+            setTestAndTrainingSet(percent);
 			try {
                 classifier.train(trainingSamples);
 				results.add(testClassifier(classifier));
@@ -38,7 +38,7 @@ public class BootstrapValidator implements IValidator {
 	}
 
 	@Override
-	public void splitSamplesIntoTrainingAndTestSets(int percent) {
+	public void setTestAndTrainingSet(int percent) {
 		trainingSamples = new ArrayList<>();
 		testSamples = new ArrayList<>();
 		Set<Integer> usedIndexes = new TreeSet<>();
